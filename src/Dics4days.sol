@@ -11,8 +11,6 @@ contract Secret is ERC721A, Ownable {
     error InsufficientPayment();
     error NoDicFound();
 
-    event MintSeed(address wallet, bytes32 tokenseed);
-
     mapping(uint256 => bytes32) private tokenSeed;
     uint256 public MAX_SUPPLY = 8004;
     uint256 public constant COST_PER_MINT = 0 ether;
@@ -32,7 +30,6 @@ contract Secret is ERC721A, Ownable {
             tokenSeed[_totalMinted() + i] = bytes32(
                 keccak256(abi.encodePacked(block.timestamp, msg.sender, _totalMinted() + i)) << 108 >> 216
             );
-            emit MintSeed(msg.sender, tokenSeed[_totalMinted() + i]);
         }
 
         _mint(msg.sender, qty);
