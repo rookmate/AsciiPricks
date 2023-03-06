@@ -12,6 +12,21 @@ contract SecretTest is Test {
     }
 
     function testMint() public {
-        dics.mint(2);
+        dics.mint(1);
+        dics.getSeed(0);
+    }
+
+    function testRevertGetSeed() public {
+        dics.mint(1);
+        dics.getSeed(0);
+        vm.expectRevert();
+        dics.getSeed(1);
+    }
+
+    function testFlipSale() public {
+        bool oldSaleStatus = dics.saleIsActive();
+        dics.flipSaleState();
+        bool newSaleStatus = dics.saleIsActive();
+        assertTrue(oldSaleStatus == !newSaleStatus);
     }
 }
