@@ -83,7 +83,7 @@ contract AsciiPricks is ERC721A, Ownable {
             abi.encodePacked(
                 '<svg width="320" height="320" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">',
                 '<rect width="100%" height="100%" fill="#121212"/>',
-                '<text x="160" y="130" font-family="Courier,monospace" font-weight="700" font-size="20" text-anchor="middle" letter-spacing="1">',
+                '<text x="50%" y="50%" font-family="Courier,monospace" font-weight="700" font-size="20" text-anchor="middle" letter-spacing="1">\n',
                 balls.content,
                 fur.content,
                 length.content,
