@@ -96,26 +96,49 @@ contract AsciiPricks is ERC721A, Ownable {
         string memory encodedSvg = Base64.encode(bytes(rawSvg));
         string memory description = 'Prick';
 
-        return string(
-            abi.encodePacked(
-                'data:application/json;base64,',
-                Base64.encode(
-                    bytes(
-                        abi.encodePacked(
-                            '{',
-                            '"name":"PRICKS #', tokenId.toString(), '",',
-                            '"description":"', description, '",',
-                            '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
-                            '"attributes": [{"trait_type": "Head", "value": "', head.name,' (',head.color.name,')', '"},',
-                            '{"trait_type": "Length", "value": "', length.name,' (',length.color.name,')', '"},',
-                            '{"trait_type": "Fur", "value": "', fur.name,' (',fur.color.name,')', '"},',
-                            '{"trait_type": "Balls", "value": "', balls.name,' (',balls.color.name,')', '"},',
-                            ']',
-                            '}')
+        if (bytes(fur.color.name).length == 0) {
+            return string(
+                abi.encodePacked(
+                    'data:application/json;base64,',
+                    Base64.encode(
+                        bytes(
+                            abi.encodePacked(
+                                '{',
+                                '"name":"PRICKS #', tokenId.toString(), '",',
+                                '"description":"', description, '",',
+                                '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
+                                '"attributes": [{"trait_type": "Head", "value": "', head.name,' (',head.color.name,')', '"},',
+                                '{"trait_type": "Length", "value": "', length.name,' (',length.color.name,')', '"},',
+                                '{"trait_type": "Fur", "value": "', fur.name,'"},',
+                                '{"trait_type": "Balls", "value": "', balls.name,' (',balls.color.name,')', '"},',
+                                ']',
+                                '}')
+                        )
                     )
                 )
-            )
-        );
+            );
+        } else {
+            return string(
+                abi.encodePacked(
+                    'data:application/json;base64,',
+                    Base64.encode(
+                        bytes(
+                            abi.encodePacked(
+                                '{',
+                                '"name":"PRICKS #', tokenId.toString(), '",',
+                                '"description":"', description, '",',
+                                '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
+                                '"attributes": [{"trait_type": "Head", "value": "', head.name,' (',head.color.name,')', '"},',
+                                '{"trait_type": "Length", "value": "', length.name,' (',length.color.name,')', '"},',
+                                '{"trait_type": "Fur", "value": "', fur.name,' (',fur.color.name,')', '"},',
+                                '{"trait_type": "Balls", "value": "', balls.name,' (',balls.color.name,')', '"},',
+                                ']',
+                                '}')
+                        )
+                    )
+                )
+            );
+        }
     }
 
     function setBalls(uint8 seed) public pure returns (Trait memory) {
@@ -130,30 +153,34 @@ contract AsciiPricks is ERC721A, Ownable {
             name = "That Lucky Ball";
         }
 
-        return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>')), name, color);
+        return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>\n')), name, color);
     }
 
     function setFur(uint8 seed) public pure returns (Trait memory) {
-        Color memory color = setColor(uint8(seed >> 1));
+        Color memory color;
         string memory content;
         string memory name;
-        if (seed < 191) {
+        uint256 x;
+        if (seed > 32 && seed < 223) {
             content = "";
             name = "No Fur";
+            color = Color("#000000", "");
         } else {
+            color = setColor(uint8(seed >> 1));
             content = "#";
             name = "Comfy Fur";
+            return Trait(string(abi.encodePacked('<tspan dx="-0.6em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
         }
 
-        return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>')), name, color);
+        return Trait(string(abi.encodePacked('<tspan dx="-0.6em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
     }
 
     function setLength(uint8 seed) public pure returns (Trait memory) {
         Color memory color = setColor(seed);
-        string memory content;
+        string memory content = "";
         for (uint8 i = 0; i < seed;) {
             if (i % 10 == 0) {
-                string.concat(content, "=");
+                content = string(abi.encodePacked(content, "="));
             }
 
             unchecked {
@@ -161,7 +188,7 @@ contract AsciiPricks is ERC721A, Ownable {
             }
         }
 
-        return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>')), "How big is your love", color);
+        return Trait(string(abi.encodePacked('<tspan dx="-0.6em" fill="', color.value, '">', content, '</tspan>\n')), "How big is your love", color);
     }
 
     function setHead(uint8 seed) public pure returns (Trait memory) {
@@ -179,7 +206,7 @@ contract AsciiPricks is ERC721A, Ownable {
             name = "Arrow";
         }
 
-        return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>')), name, color);
+        return Trait(string(abi.encodePacked('<tspan dx="-0.6em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
     }
 
     function setSquiggles(uint8 seed) private pure returns (Trait memory) {
