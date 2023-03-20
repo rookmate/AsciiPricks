@@ -2,7 +2,7 @@
 pragma solidity ^0.8.17;
 
 import "forge-std/Test.sol";
-import "../src/Dics4days.sol";
+import "../src/AsciiPricks.sol";
 
 contract AsciiPricksTest is Test {
     AsciiPricks public dics; 
