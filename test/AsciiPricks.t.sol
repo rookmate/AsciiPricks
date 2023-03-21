@@ -13,7 +13,8 @@ contract AsciiPricksTest is Test {
 
     function testMint() public {
         dics.mint(1);
-        dics.getSeed(0);
+        uint256 seed = dics.getSeed(0);
+        assertTrue(seed != 0);
     }
 
     function testRevertGetSeed() public {
@@ -31,15 +32,11 @@ contract AsciiPricksTest is Test {
     }
 
     function testTokenURI() public {
+        address foo = address(0x6529);
+        vm.startPrank(foo);
         dics.mint(1);
-        uint256 seed = dics.getSeed(0);
-
-        // dics.setBalls(uint8(seed >> 32));
-        // dics.setFur(uint8(seed << 224 >> 248));
-        // dics.setLength(uint8(seed << 240 >> 249));
-        // dics.setHead(uint8(seed << 248 >> 248));
-
-        dics.tokenURI(0);
+        string memory uri = dics.tokenURI(0);
+        assertTrue(bytes(uri).length != 0);
     }
 
     // function testWithdraw() public {
