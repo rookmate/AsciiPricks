@@ -160,7 +160,6 @@ contract AsciiPricks is ERC721A, Ownable {
         Color memory color;
         string memory content;
         string memory name;
-        uint256 x;
         if (seed > 32 && seed < 223) {
             content = "";
             name = "No Fur";
