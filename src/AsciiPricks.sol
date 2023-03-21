@@ -82,7 +82,7 @@ contract AsciiPricks is ERC721A, Ownable {
         string memory rawSvg = string(
             abi.encodePacked(
                 '<svg width="320" height="320" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">',
-                '<rect width="100%" height="100%" fill="#121212"/>',
+                '<rect width="100%" height="100%" fill="#0C090A"/>',
                 '<text x="50%" y="50%" font-family="Courier,monospace" font-weight="700" font-size="20" text-anchor="middle" letter-spacing="1">\n',
                 balls.content,
                 fur.content,
