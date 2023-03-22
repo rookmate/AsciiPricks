@@ -65,10 +65,10 @@ contract AsciiPricks is ERC721A, Ownable {
     }
 
     /*
-    XX    FamilyJewls        90% normal / 10% other
-    YY    Fur          75% without / 25% with
-    ZZ    length       Linear scale from 0 to 127 - Max len 12
-    AA    Tip         Split in 3 get one of 3
+    XX    FamilyJewls       90% normal / 10% other
+    YY    Fur               75% without / 25% with
+    ZZ    length            Linear scale from 0 to 127 - Max len 12
+    AA    Tip               Split in 3 get one of 3
     */  
     function tokenURI(uint256 tokenId) public override view returns (string memory) {
         uint256 seed = tokenSeed[tokenId];
