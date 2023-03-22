@@ -65,29 +65,27 @@ contract AsciiPricks is ERC721A, Ownable {
     }
 
     /*
-    XX    Balls        90% normal / 10% other
+    XX    FamilyJewls        90% normal / 10% other
     YY    Fur          75% without / 25% with
     ZZ    length       Linear scale from 0 to 127 - Max len 12
-    AA    Head         Split in 3 get one of 3
-    BB    Squiggles    Like length or Head
+    AA    Tip         Split in 3 get one of 3
     */  
     function tokenURI(uint256 tokenId) public override view returns (string memory) {
         uint256 seed = tokenSeed[tokenId];
-        Trait memory balls = setBalls(uint8(seed >> 32));           //up to 255
+        Trait memory famjewls = setFamilyJewls(uint8(seed >> 32));           //up to 255
         Trait memory fur = setFur(uint8(seed << 224 >> 248));       //up to 255
-        Trait memory length = setLength(uint8(seed << 240 >> 249)); //up to 127
-        Trait memory head = setHead(uint8(seed << 248 >> 248));     //up to 255
-        // Trait memory squiggles = setSquiggles();
+        Trait memory length = setLoveDepth(uint8(seed << 240 >> 249)); //up to 127
+        Trait memory tip = setTip(uint8(seed << 248 >> 248));     //up to 255
 
         string memory rawSvg = string(
             abi.encodePacked(
                 '<svg width="320" height="320" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">',
                 '<rect width="100%" height="100%" fill="#0C090A"/>',
-                '<text x="50%" y="50%" font-family="Courier,monospace" font-weight="700" font-size="20" text-anchor="middle" letter-spacing="1">\n',
-                balls.content,
+                '<text x="50%" y="50%" font-family="Roboto" font-weight="700" font-size="30" text-anchor="middle" letter-spacing="1">\n',
+                famjewls.content,
                 fur.content,
                 length.content,
-                head.content,
+                tip.content,
                 '</text>',
                 '</svg>'
             )
@@ -107,10 +105,10 @@ contract AsciiPricks is ERC721A, Ownable {
                                 '"name":"PRICKS #', tokenId.toString(), '",',
                                 '"description":"', description, '",',
                                 '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
-                                '"attributes": [{"trait_type": "Head", "value": "', head.name,' (',head.color.name,')', '"},',
-                                '{"trait_type": "Length", "value": "', length.name,' (',length.color.name,')', '"},',
+                                '"attributes": [{"trait_type": "Tip", "value": "', tip.name,' (',tip.color.name,')', '"},',
+                                '{"trait_type": "How deep is your love", "value": "', length.name,' (',length.color.name,')', '"},',
                                 '{"trait_type": "Fur", "value": "', fur.name,'"},',
-                                '{"trait_type": "Balls", "value": "', balls.name,' (',balls.color.name,')', '"},',
+                                '{"trait_type": "Family Jewls", "value": "', famjewls.name,' (',famjewls.color.name,')', '"},',
                                 ']',
                                 '}')
                         )
@@ -128,10 +126,10 @@ contract AsciiPricks is ERC721A, Ownable {
                                 '"name":"PRICKS #', tokenId.toString(), '",',
                                 '"description":"', description, '",',
                                 '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
-                                '"attributes": [{"trait_type": "Head", "value": "', head.name,' (',head.color.name,')', '"},',
-                                '{"trait_type": "Length", "value": "', length.name,' (',length.color.name,')', '"},',
+                                '"attributes": [{"trait_type": "Tip", "value": "', tip.name,' (',tip.color.name,')', '"},',
+                                '{"trait_type": "How deep is your love", "value": "', length.name,' (',length.color.name,')', '"},',
                                 '{"trait_type": "Fur", "value": "', fur.name,' (',fur.color.name,')', '"},',
-                                '{"trait_type": "Balls", "value": "', balls.name,' (',balls.color.name,')', '"},',
+                                '{"trait_type": "Family Jewls", "value": "', famjewls.name,' (',famjewls.color.name,')', '"},',
                                 ']',
                                 '}')
                         )
@@ -141,7 +139,7 @@ contract AsciiPricks is ERC721A, Ownable {
         }
     }
 
-    function setBalls(uint8 seed) public pure returns (Trait memory) {
+    function setFamilyJewls(uint8 seed) private pure returns (Trait memory) {
         Color memory color = setColor(uint8(seed >> 1));
         string memory content;
         string memory name;
@@ -156,7 +154,7 @@ contract AsciiPricks is ERC721A, Ownable {
         return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>\n')), name, color);
     }
 
-    function setFur(uint8 seed) public pure returns (Trait memory) {
+    function setFur(uint8 seed) private pure returns (Trait memory) {
         Color memory color;
         string memory content;
         string memory name;
@@ -168,13 +166,13 @@ contract AsciiPricks is ERC721A, Ownable {
             color = setColor(uint8(seed >> 1));
             content = "#";
             name = "Comfy Fur";
-            return Trait(string(abi.encodePacked('<tspan dx="-0.6em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
+            return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
         }
 
-        return Trait(string(abi.encodePacked('<tspan dx="-0.6em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
+        return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
     }
 
-    function setLength(uint8 seed) public pure returns (Trait memory) {
+    function setLoveDepth(uint8 seed) private pure returns (Trait memory) {
         Color memory color = setColor(seed);
         string memory content = "";
         for (uint8 i = 0; i < seed;) {
@@ -187,10 +185,10 @@ contract AsciiPricks is ERC721A, Ownable {
             }
         }
 
-        return Trait(string(abi.encodePacked('<tspan dx="-0.6em" fill="', color.value, '">', content, '</tspan>\n')), "How big is your love", color);
+        return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), "How deep is your love", color);
     }
 
-    function setHead(uint8 seed) public pure returns (Trait memory) {
+    function setTip(uint8 seed) private pure returns (Trait memory) {
         Color memory color = setColor(uint8(seed >> 1));
         string memory content;
         string memory name;
@@ -205,11 +203,7 @@ contract AsciiPricks is ERC721A, Ownable {
             name = "Arrow";
         }
 
-        return Trait(string(abi.encodePacked('<tspan dx="-0.6em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
-    }
-
-    function setSquiggles(uint8 seed) private pure returns (Trait memory) {
-
+        return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
     }
 
     function setColor(uint8 seed) public pure returns (Color memory) {
