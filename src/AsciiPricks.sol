@@ -76,6 +76,7 @@ contract AsciiPricks is ERC721A, Ownable {
         Trait memory fur = setFur(uint8(seed << 224 >> 248));       //up to 255
         Trait memory length = setLoveDepth(uint8(seed << 240 >> 249)); //up to 127
         Trait memory tip = setTip(uint8(seed << 248 >> 248));     //up to 255
+        Trait memory style = setStyle(seed);
 
         string memory rawSvg = string(
             abi.encodePacked(
@@ -87,6 +88,7 @@ contract AsciiPricks is ERC721A, Ownable {
                 length.content,
                 tip.content,
                 '</text>',
+                style.content,
                 '</svg>'
             )
         );
@@ -105,10 +107,11 @@ contract AsciiPricks is ERC721A, Ownable {
                                 '"name":"PRICKS #', tokenId.toString(), '",',
                                 '"description":"', description, '",',
                                 '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
-                                '"attributes": [{"trait_type": "Tip", "value": "', tip.name,' (',tip.color.name,')', '"},',
-                                '{"trait_type": "How deep is your love", "value": "', length.name,' (',length.color.name,')', '"},',
+                                '"attributes": [{"trait_type": "Tip", "value": "', tip.color.name, ' ', tip.name,'"},',
+                                '{"trait_type": "How deep is your love", "value": "', length.color.name, ' ', length.name,' ('')', '"},',
                                 '{"trait_type": "Fur", "value": "', fur.name,'"},',
-                                '{"trait_type": "Family Jewls", "value": "', famjewls.name,' (',famjewls.color.name,')', '"},',
+                                '{"trait_type": "Family Jewls", "value": "', famjewls.color.name, ' ', famjewls.name,'"},',
+                                '{"trait_type": "Style", "value": "', style.name,'"},',
                                 ']',
                                 '}')
                         )
@@ -126,10 +129,11 @@ contract AsciiPricks is ERC721A, Ownable {
                                 '"name":"PRICKS #', tokenId.toString(), '",',
                                 '"description":"', description, '",',
                                 '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
-                                '"attributes": [{"trait_type": "Tip", "value": "', tip.name,' (',tip.color.name,')', '"},',
-                                '{"trait_type": "How deep is your love", "value": "', length.name,' (',length.color.name,')', '"},',
-                                '{"trait_type": "Fur", "value": "', fur.name,' (',fur.color.name,')', '"},',
-                                '{"trait_type": "Family Jewls", "value": "', famjewls.name,' (',famjewls.color.name,')', '"},',
+                                '"attributes": [{"trait_type": "Tip", "value": "', tip.color.name, ' ', tip.name,'"},',
+                                '{"trait_type": "How deep is your love", "value": "', length.color.name, ' ', length.name,'"},',
+                                '{"trait_type": "Fur", "value": "', fur.color.name, ' ', fur.name,'"},',
+                                '{"trait_type": "Family Jewls", "value": "', famjewls.color.name, ' ', famjewls.name,'"},',
+                                '{"trait_type": "Style", "value": "', style.name,'"},',
                                 ']',
                                 '}')
                         )
@@ -204,6 +208,26 @@ contract AsciiPricks is ERC721A, Ownable {
         }
 
         return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
+    }
+
+    function setStyle(uint256 seed) private pure returns (Trait memory style) {
+        uint256 animation = seed % 100;
+
+        if (animation < 60) {   // 60%
+            style.content = '';
+            style.name = 'Lousy picture';
+        } else if (animation >= 60 && animation < 80) {   // 20%
+            style.content = '<style>text {animation: rotate 3s linear infinite; transform-origin: center;}@keyframes rotate {from {transform: rotate(360deg);} to {transform: rotate(0deg);}}';
+            style.name = 'Helicopter D';
+        } else if (animation >= 80 && animation < 95) {   // 15%
+            style.content = '<style>text {animation: rotate-up 1s steps(5) infinite alternate, rotate-down 0.5s ease-out infinite alternate;transform-origin: center;}@keyframes rotate-up {from {transform: rotate(25deg);}to {transform: rotate(-45deg);}}@keyframes rotate-down {from {transform: rotate(-45deg);}to {transform: rotate(25deg);}}</style>';
+            style.name = 'Shake';
+        } else {   // 5%
+            style.content = '<style>text {animation: move 0.2s cubic-bezier(.44,.05,.55,.95) infinite alternate;transform-origin: center;}@keyframes move {from {transform: translateX(-20px);}to {transform: translateX(20px);}}</style>';
+            style.name = 'Getting lucky';
+        }
+
+        return style;
     }
 
     function setColor(uint8 seed) public pure returns (Color memory) {
