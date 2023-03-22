@@ -18,7 +18,7 @@ contract AsciiPricks is ERC721A, Ownable {
     mapping(uint256 => uint256) private tokenSeed; //TokenID to TokenSeed
     uint256 public MAX_SUPPLY = 8004;
     uint256 public constant COST_PER_MINT = 0 ether;
-    bool public saleIsActive = true;
+    bool public saleIsActive = false;
     uint8 public MAX_PER_WALLET = 10;
 
     struct Color {
