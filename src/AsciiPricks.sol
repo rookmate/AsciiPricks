@@ -208,33 +208,33 @@ contract AsciiPricks is ERC721A, Ownable {
 
     function setColor(uint8 seed) public pure returns (Color memory) {
         if (seed < 6) {
-            return Color("#08f7fe", "Geo Glow Blue");
+            return Color("#08f7fe", "Glowy Blue");
         }
         if (seed < 12) {
-            return Color("#09fbd3", "Geo Glow Green");
+            return Color("#09fbd3", "Glowy Green");
         }
         if (seed < 18) {
-            return Color("#fe53bb", "Geo Glow Pink");
+            return Color("#fe53bb", "Glowy Pink");
         }
         if (seed < 24) {
-            return Color("#f5d300", "Geo Glow Yellow");
+            return Color("#f5d300", "Glowy Yellow");
         }
 
         if (seed < 30) {
-            return Color("#ffacfc", "Neon Light Pink");
+            return Color("#ffacfc", "Bubblegum Pink");
         }
         if (seed < 36) {
-            return Color("#f148fb", "Neon Bubblegum Pink");
+            return Color("#f148fb", "Neon Pink");
         }
         if (seed < 42) {
-            return Color("#7122fa", "Neon Blue");
+            return Color("#7122fa", "Neon Purple");
         }
         if (seed < 48) {
-            return Color("#560a86", "Neon Purple");
+            return Color("#560a86", "Dark Purple");
         }
 
         if (seed < 54) {
-            return Color("#ffe3f1", "Retro Light Pink");
+            return Color("#ffe3f1", "Light Pink");
         }
         if (seed < 60) {
             return Color("#fe1c80", "Retro Pink");
@@ -260,18 +260,18 @@ contract AsciiPricks is ERC721A, Ownable {
         }
 
         if (seed < 102) {
-            return Color("#fcf340", "Venetian Green");
+            return Color("#fcf340", "Plain Yellow");
         }
         if (seed < 108) {
-            return Color("#7fff00", "Venetian Blue");
+            return Color("#7fff00", "Plain Green");
         }
         if (seed < 114) {
-            return Color("#fb33db", "Venetian Light Pink");
+            return Color("#fb33db", "Bright Pink");
         }
         if (seed < 120) {
-            return Color("#0310ea", "Venetian Pink");
+            return Color("#0310ea", "Plain Blue");
         }
 
-        return Color('#f7ef8a','King Gold');
+        return Color('#f7ef8a','Golden');
     }
 }
