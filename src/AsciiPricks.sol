@@ -217,7 +217,7 @@ contract AsciiPricks is ERC721A, Ownable {
             style.content = '';
             style.name = 'Lousy picture';
         } else if (animation >= 60 && animation < 80) {   // 20%
-            style.content = '<style>text {animation: rotate 3s linear infinite; transform-origin: center;}@keyframes rotate {from {transform: rotate(360deg);} to {transform: rotate(0deg);}}';
+            style.content = '<style>text {animation: rotate 2s linear infinite; transform-origin: center;}@keyframes rotate {from {transform: rotate(0deg);} to {transform: rotate(360deg);}}</style>';
             style.name = 'Helicopter D';
         } else if (animation >= 80 && animation < 95) {   // 15%
             style.content = '<style>text {animation: rotate-up 1s steps(5) infinite alternate, rotate-down 0.5s ease-out infinite alternate;transform-origin: center;}@keyframes rotate-up {from {transform: rotate(25deg);}to {transform: rotate(-45deg);}}@keyframes rotate-down {from {transform: rotate(-45deg);}to {transform: rotate(25deg);}}</style>';
