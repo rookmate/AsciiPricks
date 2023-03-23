@@ -39,6 +39,14 @@ contract AsciiPricksTest is Test {
         assertTrue(bytes(uri).length != 0);
     }
 
+    function testOvermint() public {
+        dics.flipSaleState();
+        address foo = address(0x42069);
+        vm.startPrank(foo);
+        vm.expectRevert();
+        dics.mint(20);
+    }
+
     // function testWithdraw() public {
     //     vm.deal(address(dics), 1);
     //     assertTrue(dics.balance() == 1);
