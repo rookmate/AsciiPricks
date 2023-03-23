@@ -194,7 +194,6 @@ contract AsciiPricks is ERC721A, Ownable {
             color = setColor(uint8(seed >> 1));
             content = "#";
             name = "Comfy Fur";
-            return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
         }
 
         return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
