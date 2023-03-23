@@ -12,14 +12,13 @@ contract AsciiPricksTest is Test {
     }
 
     function testMint() public {
+        dics.flipSaleState();
         dics.mint(1);
         uint256 seed = dics.getSeed(0);
         assertTrue(seed != 0);
     }
 
     function testRevertGetSeed() public {
-        dics.mint(1);
-        dics.getSeed(0);
         vm.expectRevert();
         dics.getSeed(1);
     }
@@ -32,7 +31,8 @@ contract AsciiPricksTest is Test {
     }
 
     function testTokenURI() public {
-        address foo = address(0x6529);
+        dics.flipSaleState();
+        address foo = address(0x42069);
         vm.startPrank(foo);
         dics.mint(1);
         string memory uri = dics.tokenURI(0);
