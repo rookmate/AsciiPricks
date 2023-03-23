@@ -120,51 +120,27 @@ contract AsciiPricks is ERC721A, Ownable {
         string memory encodedSvg = Base64.encode(bytes(rawSvg));
         string memory description = 'Prick';
 
-        if (bytes(fur.color.name).length == 0) {
-            return string(
-                abi.encodePacked(
-                    'data:application/json;base64,',
-                    Base64.encode(
-                        bytes(
-                            abi.encodePacked(
-                                '{',
-                                '"name":"PRICKS #', tokenId.toString(), '",',
-                                '"description":"', description, '",',
-                                '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
-                                '"attributes": [{"trait_type": "Tip", "value": "', tip.color.name, ' ', tip.name,'"},',
-                                '{"trait_type": "How deep is your love", "value": "', length.color.name, ' ', length.name,' ('')', '"},',
-                                '{"trait_type": "Fur", "value": "', fur.name,'"},',
-                                '{"trait_type": "Family Jewls", "value": "', famjewls.color.name, ' ', famjewls.name,'"},',
-                                '{"trait_type": "Style", "value": "', style.name,'"},',
-                                ']',
-                                '}')
-                        )
+        return string(
+            abi.encodePacked(
+                'data:application/json;base64,',
+                Base64.encode(
+                    bytes(
+                        abi.encodePacked(
+                            '{',
+                            '"name":"PRICKS #', tokenId.toString(), '",',
+                            '"description":"', description, '",',
+                            '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
+                            '"attributes": [{"trait_type": "Tip", "value": "', tip.color.name, ' ', tip.name,'"},',
+                            '{"trait_type": "How deep is your love", "value": "', length.color.name,'"},',
+                            '{"trait_type": "Fur", "value": "', fur.color.name, ' ', fur.name,'"},',
+                            '{"trait_type": "Family Jewls", "value": "', famjewls.color.name, ' ', famjewls.name,'"},',
+                            '{"trait_type": "Style", "value": "', style.name,'"},',
+                            ']',
+                            '}')
                     )
                 )
-            );
-        } else {
-            return string(
-                abi.encodePacked(
-                    'data:application/json;base64,',
-                    Base64.encode(
-                        bytes(
-                            abi.encodePacked(
-                                '{',
-                                '"name":"PRICKS #', tokenId.toString(), '",',
-                                '"description":"', description, '",',
-                                '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
-                                '"attributes": [{"trait_type": "Tip", "value": "', tip.color.name, ' ', tip.name,'"},',
-                                '{"trait_type": "How deep is your love", "value": "', length.color.name,'"},',
-                                '{"trait_type": "Fur", "value": "', fur.color.name, ' ', fur.name,'"},',
-                                '{"trait_type": "Family Jewls", "value": "', famjewls.color.name, ' ', famjewls.name,'"},',
-                                '{"trait_type": "Style", "value": "', style.name,'"},',
-                                ']',
-                                '}')
-                        )
-                    )
-                )
-            );
-        }
+            )
+        );
     }
 
     function setFamilyJewls(uint8 seed) private view returns (Trait memory) {
@@ -189,7 +165,7 @@ contract AsciiPricks is ERC721A, Ownable {
         if (seed > 32 && seed < 223) {
             content = "";
             name = "No Fur";
-            color = Color("#000000", "");
+            color = Color("#0C090A", "");
         } else {
             color = setColor(uint8(seed >> 1));
             content = "#";
