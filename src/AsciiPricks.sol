@@ -32,6 +32,30 @@ contract AsciiPricks is ERC721A, Ownable {
         Color color;
     }
 
+    Color[] colors = [
+            Color("#08f7fe", "Glowy Blue"),
+            Color("#09fbd3", "Glowy Green"),
+            Color("#fe53bb", "Glowy Pink"),
+            Color("#f5d300", "Glowy Yellow"),
+            Color("#ffacfc", "Bubblegum Pink"),
+            Color("#f148fb", "Neon Pink"),
+            Color("#7122fa", "Neon Purple"),
+            Color("#560a86", "Dark Purple"),
+            Color("#ffe3f1", "Light Pink"),
+            Color("#fe1c80", "Retro Pink"),
+            Color("#ff5f01", "Retro Orange"),
+            Color("#ce0000", "Retro Red"),
+            Color("#fcf340", "Bokeh Yellow"),
+            Color("#7fff00", "Bokeh Green"),
+            Color("#fb33db", "Bokeh Pink"),
+            Color("#0310ea", "Bokeh Blue"),
+            Color("#fcf340", "Plain Yellow"),
+            Color("#7fff00", "Plain Green"),
+            Color("#fb33db", "Bright Pink"),
+            Color("#0310ea", "Plain Blue"),
+            Color("#f7ef8a", "Golden")
+            ];
+
     constructor() ERC721A("ASCII Pricks", "PRICK") {
     }
 
@@ -69,7 +93,7 @@ contract AsciiPricks is ERC721A, Ownable {
     YY    Fur               75% without / 25% with
     ZZ    length            Linear scale from 0 to 127 - Max len 12
     AA    Tip               Split in 3 get one of 3
-    */  
+    */
     function tokenURI(uint256 tokenId) public override view returns (string memory) {
         uint256 seed = tokenSeed[tokenId];
         Trait memory famjewls = setFamilyJewls(uint8(seed >> 32));           //up to 255
@@ -130,7 +154,7 @@ contract AsciiPricks is ERC721A, Ownable {
                                 '"description":"', description, '",',
                                 '"image": "', 'data:image/svg+xml;base64,', encodedSvg, '",',
                                 '"attributes": [{"trait_type": "Tip", "value": "', tip.color.name, ' ', tip.name,'"},',
-                                '{"trait_type": "How deep is your love", "value": "', length.color.name, ' ', length.name,'"},',
+                                '{"trait_type": "How deep is your love", "value": "', length.color.name,'"},',
                                 '{"trait_type": "Fur", "value": "', fur.color.name, ' ', fur.name,'"},',
                                 '{"trait_type": "Family Jewls", "value": "', famjewls.color.name, ' ', famjewls.name,'"},',
                                 '{"trait_type": "Style", "value": "', style.name,'"},',
@@ -143,7 +167,7 @@ contract AsciiPricks is ERC721A, Ownable {
         }
     }
 
-    function setFamilyJewls(uint8 seed) private pure returns (Trait memory) {
+    function setFamilyJewls(uint8 seed) private view returns (Trait memory) {
         Color memory color = setColor(uint8(seed >> 1));
         string memory content;
         string memory name;
@@ -158,7 +182,7 @@ contract AsciiPricks is ERC721A, Ownable {
         return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>\n')), name, color);
     }
 
-    function setFur(uint8 seed) private pure returns (Trait memory) {
+    function setFur(uint8 seed) private view returns (Trait memory) {
         Color memory color;
         string memory content;
         string memory name;
@@ -176,7 +200,7 @@ contract AsciiPricks is ERC721A, Ownable {
         return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
     }
 
-    function setLoveDepth(uint8 seed) private pure returns (Trait memory) {
+    function setLoveDepth(uint8 seed) private view returns (Trait memory) {
         Color memory color = setColor(seed);
         string memory content = "";
         for (uint8 i = 0; i < seed;) {
@@ -192,7 +216,7 @@ contract AsciiPricks is ERC721A, Ownable {
         return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), "How deep is your love", color);
     }
 
-    function setTip(uint8 seed) private pure returns (Trait memory) {
+    function setTip(uint8 seed) private view returns (Trait memory) {
         Color memory color = setColor(uint8(seed >> 1));
         string memory content;
         string memory name;
@@ -230,72 +254,9 @@ contract AsciiPricks is ERC721A, Ownable {
         return style;
     }
 
-    function setColor(uint8 seed) public pure returns (Color memory) {
-        if (seed < 6) {
-            return Color("#08f7fe", "Glowy Blue");
-        }
-        if (seed < 12) {
-            return Color("#09fbd3", "Glowy Green");
-        }
-        if (seed < 18) {
-            return Color("#fe53bb", "Glowy Pink");
-        }
-        if (seed < 24) {
-            return Color("#f5d300", "Glowy Yellow");
-        }
+    function setColor(uint8 seed) public view returns (Color memory) {
+        uint8 index = seed % uint8(colors.length);
 
-        if (seed < 30) {
-            return Color("#ffacfc", "Bubblegum Pink");
-        }
-        if (seed < 36) {
-            return Color("#f148fb", "Neon Pink");
-        }
-        if (seed < 42) {
-            return Color("#7122fa", "Neon Purple");
-        }
-        if (seed < 48) {
-            return Color("#560a86", "Dark Purple");
-        }
-
-        if (seed < 54) {
-            return Color("#ffe3f1", "Light Pink");
-        }
-        if (seed < 60) {
-            return Color("#fe1c80", "Retro Pink");
-        }
-        if (seed < 66) {
-            return Color("#ff5f01", "Retro Orange");
-        }
-        if (seed < 72) {
-            return Color("#ce0000", "Retro Red");
-        }
-
-        if (seed < 78) {
-            return Color("#fcf340", "Bokeh Yellow");
-        }
-        if (seed < 84) {
-            return Color("#7fff00", "Bokeh Green");
-        }
-        if (seed < 90) {
-            return Color("#fb33db", "Bokeh Pink");
-        }
-        if (seed < 96) {
-            return Color("#0310ea", "Bokeh Blue");
-        }
-
-        if (seed < 102) {
-            return Color("#fcf340", "Plain Yellow");
-        }
-        if (seed < 108) {
-            return Color("#7fff00", "Plain Green");
-        }
-        if (seed < 114) {
-            return Color("#fb33db", "Bright Pink");
-        }
-        if (seed < 120) {
-            return Color("#0310ea", "Plain Blue");
-        }
-
-        return Color('#f7ef8a','Golden');
+        return colors[index];
     }
 }
