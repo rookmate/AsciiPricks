@@ -134,7 +134,7 @@ contract AsciiPricks is ERC721A, Ownable {
                             '{"trait_type": "How deep is your love", "value": "', length.color.name,'"},',
                             '{"trait_type": "Fur", "value": "', fur.color.name, ' ', fur.name,'"},',
                             '{"trait_type": "Family Jewls", "value": "', famjewls.color.name, ' ', famjewls.name,'"},',
-                            '{"trait_type": "Style", "value": "', style.name,'"},',
+                            '{"trait_type": "Style", "value": "', style.name,'"}'
                             ']',
                             '}')
                     )
