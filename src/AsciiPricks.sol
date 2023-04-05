@@ -106,7 +106,7 @@ contract AsciiPricks is ERC721A, Ownable {
             abi.encodePacked(
                 '<svg width="320" height="320" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">',
                 '<rect width="100%" height="100%" fill="#0C090A"/>',
-                '<text x="50%" y="50%" font-family="Roboto" font-weight="700" font-size="30" text-anchor="middle" letter-spacing="1">\n',
+                '<text x="50%" y="50%" font-family="Roboto" font-weight="700" font-size="30" text-anchor="middle" letter-spacing="1">',
                 famjewls.content,
                 fur.content,
                 length.content,
@@ -155,7 +155,7 @@ contract AsciiPricks is ERC721A, Ownable {
             name = "That Lucky Ball";
         }
 
-        return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>\n')), name, color);
+        return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>')), name, color);
     }
 
     function setFur(uint8 seed) private view returns (Trait memory) {
@@ -172,7 +172,7 @@ contract AsciiPricks is ERC721A, Ownable {
             name = "Comfy Fur";
         }
 
-        return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
+        return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>')), name, color);
     }
 
     function setLoveDepth(uint8 seed) private view returns (Trait memory) {
@@ -188,7 +188,7 @@ contract AsciiPricks is ERC721A, Ownable {
             }
         }
 
-        return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), "How deep is your love", color);
+        return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>')), "How deep is your love", color);
     }
 
     function setTip(uint8 seed) private view returns (Trait memory) {
@@ -206,7 +206,7 @@ contract AsciiPricks is ERC721A, Ownable {
             name = "Arrow";
         }
 
-        return Trait(string(abi.encodePacked('<tspan dx="-0.4em" fill="', color.value, '">', content, '</tspan>\n')), name, color);
+        return Trait(string(abi.encodePacked('<tspan fill="', color.value, '">', content, '</tspan>')), name, color);
     }
 
     function setStyle(uint256 seed) private pure returns (Trait memory style) {
