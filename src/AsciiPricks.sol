@@ -104,7 +104,7 @@ contract AsciiPricks is ERC721A, Ownable {
 
         string memory rawSvg = string(
             abi.encodePacked(
-                '<svg width="320" height="320" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">',
+                '<svg width="350" height="350" viewBox="0 0 350 350" xmlns="http://www.w3.org/2000/svg">',
                 '<rect width="100%" height="100%" fill="#0C090A"/>',
                 '<text x="50%" y="50%" font-family="Roboto" font-weight="700" font-size="30" text-anchor="middle" letter-spacing="1">',
                 famjewls.content,
