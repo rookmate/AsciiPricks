@@ -219,8 +219,8 @@ contract AsciiPricks is ERC721A, Ownable {
             style.content = '<style>text {animation: rotate-up 1s steps(5) infinite alternate, rotate-down 0.5s ease-out infinite alternate;transform-origin: center;}@keyframes rotate-up {from {transform: rotate(25deg);}to {transform: rotate(-45deg);}}@keyframes rotate-down {from {transform: rotate(-45deg);}to {transform: rotate(25deg);}}</style>';
             style.name = 'Shake';
         } else if (animation >= 80 && animation < 95) {   // 15%
-            style.content = '<style>text {animation: shake 2.5s infinite;transform-origin: 10% 50%;;display: inline-block;}@keyframes shake {0% {transform: rotate(0deg);}20% {transform: rotate(-25deg);}30% {transform: rotate(-35deg);}40% {transform: rotate(10deg);}60% {transform: rotate(-45deg);}80% {transform: rotate(-90deg);}90% {transform: rotate(-45deg);}100% {transform: rotate(0deg);}}</style>';
-            style.name = 'Boner';
+            style.content = '<style>text {animation: heli 1.5s infinite;transform-origin: 5% 50%;display: inline-block;}@keyframes heli {0% {transform: rotate(720deg);}}</style>';
+            style.name = 'Helicopter';
         } else {   // 5%
             style.content = '<style>text {animation: move 0.2s cubic-bezier(.44,.05,.55,.95) infinite alternate;transform-origin: center;}@keyframes move {from {transform: translateX(-20px);}to {transform: translateX(20px);}}</style>';
             style.name = 'Getting lucky';
