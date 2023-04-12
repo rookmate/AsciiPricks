@@ -62,7 +62,6 @@ contract AsciiPricks is ERC721A, Ownable {
     }
 
     function alMint(bytes32[] calldata _proof, uint32 qty) external payable {
-        if (!saleIsActive) revert SaleIsPaused();
         if (_totalMinted() + qty > MAX_SUPPLY) revert MaxSupplyReached();
         if (_numberMinted(msg.sender) + qty > MAX_PER_WALLET) revert MaxPerWalletReached();
 
