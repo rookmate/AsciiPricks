@@ -87,7 +87,7 @@ contract AsciiPricks is ERC721A, Ownable {
             revert InvalidProof();
         }
 
-        for (uint256 i = 0; i < qty;) {
+        for (uint256 i = 0; i < qty; ) {
             tokenSeed[_totalMinted() + i] = uint256(
                 keccak256(abi.encodePacked(block.timestamp, msg.sender, _totalMinted() + i)) << 108 >> 216
             );
@@ -103,10 +103,11 @@ contract AsciiPricks is ERC721A, Ownable {
         if (_totalMinted() + qty > MAX_SUPPLY) revert MaxSupplyReached();
         if (_numberMinted(msg.sender) + qty > MAX_PER_WALLET) revert MaxPerWalletReached();
 
-        for (uint256 i = 0; i < qty; i++) {
+        for (uint256 i = 0; i < qty; ) {
             tokenSeed[_totalMinted() + i] = uint256(
                 keccak256(abi.encodePacked(block.timestamp, msg.sender, _totalMinted() + i)) << 108 >> 216
             );
+            unchecked { ++i; }
         }
 
         _mint(msg.sender, qty);
