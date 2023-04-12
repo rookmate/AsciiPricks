@@ -27,6 +27,15 @@ contract AsciiPricksTest is Test {
         assertTrue(seed != 0);
     }
 
+    function testMintZero() public {
+        dics.flipSaleState();
+        vm.expectRevert();
+        dics.mint(0);
+        vm.expectRevert();
+        bytes32[] memory proof = new bytes32[](0);
+        dics.alMint(proof, 0);
+    }
+
     function testALMint() public {
         dics.flipSaleState();
         address foo = address(0x42069);

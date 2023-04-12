@@ -15,6 +15,7 @@ contract AsciiPricks is ERC721A, Ownable {
     error MaxPerWalletReached();
     error NoDicFound();
     error InvalidProof();
+    error MustMintMoreThanZero();
 
     mapping(uint256 => uint256) private tokenSeed; //TokenID to TokenSeed
     uint256 public MAX_SUPPLY = 8004;
@@ -62,6 +63,7 @@ contract AsciiPricks is ERC721A, Ownable {
     }
 
     function alMint(bytes32[] calldata _proof, uint32 qty) external payable {
+        if (qty == 0) revert MustMintMoreThanZero();
         if (_totalMinted() + qty > MAX_SUPPLY) revert MaxSupplyReached();
         if (_numberMinted(msg.sender) + qty > MAX_PER_WALLET) revert MaxPerWalletReached();
 
@@ -81,6 +83,7 @@ contract AsciiPricks is ERC721A, Ownable {
     }
 
     function mint(uint32 qty) external payable {
+        if (qty == 0) revert MustMintMoreThanZero();
         if (!saleIsActive) revert SaleIsPaused();
         if (_totalMinted() + qty > MAX_SUPPLY) revert MaxSupplyReached();
         if (_numberMinted(msg.sender) + qty > MAX_PER_WALLET) revert MaxPerWalletReached();
