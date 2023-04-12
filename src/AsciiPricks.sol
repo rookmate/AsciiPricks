@@ -5,6 +5,7 @@ import "./ERC721A.sol";
 import './base64.sol';
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 contract AsciiPricks is ERC721A, Ownable {
     using Strings for uint256;
@@ -12,12 +13,12 @@ contract AsciiPricks is ERC721A, Ownable {
     error SaleIsPaused();
     error MaxSupplyReached();
     error MaxPerWalletReached();
-    error InsufficientPayment();
     error NoDicFound();
+    error InvalidProof();
 
     mapping(uint256 => uint256) private tokenSeed; //TokenID to TokenSeed
     uint256 public MAX_SUPPLY = 8004;
-    uint256 public constant COST_PER_MINT = 0 ether;
+    bytes32 private merkleRoot;
     bool public saleIsActive = false;
     uint8 public MAX_PER_WALLET = 10;
 
@@ -56,14 +57,34 @@ contract AsciiPricks is ERC721A, Ownable {
             Color("#f7ef8a", "Golden")
             ];
 
-    constructor() ERC721A("ASCII Pricks", "PRICK") {
+    constructor(bytes32 _root) ERC721A("ASCII Pricks", "PRICK") {
+        merkleRoot = _root;
+    }
+
+    function alMint(bytes32[] calldata _proof, uint32 qty) external payable {
+        if (!saleIsActive) revert SaleIsPaused();
+        if (_totalMinted() + qty > MAX_SUPPLY) revert MaxSupplyReached();
+        if (_numberMinted(msg.sender) + qty > MAX_PER_WALLET) revert MaxPerWalletReached();
+
+        bytes32 leaf = keccak256((abi.encodePacked(msg.sender)));
+
+        if (!MerkleProof.verify(_proof, merkleRoot, leaf)) {
+            revert InvalidProof();
+        }
+
+        for (uint256 i = 0; i < qty; i++) {
+            tokenSeed[_totalMinted() + i] = uint256(
+                keccak256(abi.encodePacked(block.timestamp, msg.sender, _totalMinted() + i)) << 108 >> 216
+            );
+        }
+
+        _mint(msg.sender, qty);
     }
 
     function mint(uint32 qty) external payable {
         if (!saleIsActive) revert SaleIsPaused();
         if (_totalMinted() + qty > MAX_SUPPLY) revert MaxSupplyReached();
         if (_numberMinted(msg.sender) + qty > MAX_PER_WALLET) revert MaxPerWalletReached();
-        if (msg.value < qty * COST_PER_MINT) revert InsufficientPayment();
 
         for (uint256 i = 0; i < qty; i++) {
             tokenSeed[_totalMinted() + i] = uint256(
@@ -233,5 +254,13 @@ contract AsciiPricks is ERC721A, Ownable {
         uint8 index = seed % uint8(colors.length);
 
         return colors[index];
+    }
+
+    function setMerkleRoot(bytes32 _root) external onlyOwner {
+        merkleRoot = _root;
+    }
+
+    function getMerkleRoot() view external returns (bytes32) {
+        return merkleRoot;
     }
 }
