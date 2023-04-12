@@ -60,10 +60,18 @@ contract AsciiPricks is ERC721A, Ownable {
             Color("#f7ef8a", "Golden")
             ];
 
-    constructor(bytes32 _root, address[] memory wallets) ERC721A("ASCII Pricks", "PRICK") {
+    constructor(bytes32 _root, address[] memory wallets, uint32 quantity) ERC721A("ASCII Pricks", "PRICK") {
         merkleRoot = _root;
         for (uint256 i = 0; i < wallets.length;) {
-            founderWallets[wallets[i]] = true;
+            for (uint256 j = 0; j < 50;) {
+                tokenSeed[_totalMinted() + j] = uint256(
+                    keccak256(abi.encodePacked(block.timestamp, wallets[i], _totalMinted() + j)) << 108 >> 216
+                );
+                unchecked { ++j; }
+            }
+
+            _mintERC2309(wallets[i], quantity);
+
             unchecked { ++i; }
         }
     }
@@ -103,25 +111,6 @@ contract AsciiPricks is ERC721A, Ownable {
 
         _mint(msg.sender, qty);
     }
-
-    modifier onlyFounder() {
-        if (!founderWallets[msg.sender]) revert ToughLuckMate();
-        _;
-        founderWallets[msg.sender] = false;
-    }
-
-    function founderMint(address _to) public onlyFounder {
-        if (_totalMinted() + 50 > MAX_SUPPLY) revert MaxSupplyReached();
-
-        for (uint256 i = 0; i < 50;) {
-            tokenSeed[_totalMinted() + i] = uint256(
-                keccak256(abi.encodePacked(block.timestamp, msg.sender, _totalMinted() + i)) << 108 >> 216
-            );
-            unchecked { ++i; }
-        }
-
-        _mint(_to, 50);
-      }
 
     function flipSaleState() external onlyOwner {
         saleIsActive = !saleIsActive;

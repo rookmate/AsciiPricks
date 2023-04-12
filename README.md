@@ -2,16 +2,16 @@
 | src/AsciiPricks.sol:AsciiPricks contract |                 |        |        |        |        |
 |------------------------------------------|-----------------|--------|--------|--------|--------|
 | Deployment Cost                          | Deployment Size |        |        |        |        |
-| 3469211                                  | 15498           |        |        |        |        |
+| 8068143                                  | 15854           |        |        |        |        |
 | Function Name                            | min             | avg    | median | max    | #calls |
-| founderMint                              | 979             | 436997 | 2979   | 1307035| 3      |
-| alMint                                   | 534             | 35975  | 10012  | 97380  | 3      |
-| mint                                     | 712             | 40135  | 7431   | 94845  | 5      |
-| flipSaleState                            | 5570            | 7284   | 7570   | 7570   | 7      |
-| getSeed                                  | 1243            | 2159   | 2075   | 3243   | 4      |
-| tokenURI                                 | 186603          | 186603 | 186603 | 186603 | 1      |
+| alMint                                   | 534             | 30271  | 10012  | 80268  | 3      |
+| flipSaleState                            | 5570            | 7236   | 7570   | 7570   | 6      |
 | getMerkleRoot                            | 555             | 1555   | 1555   | 2555   | 2      |
+| getSeed                                  | 1221            | 1776   | 1221   | 2886   | 3      |
+| mint                                     | 712             | 22179  | 5137   | 77733  | 4      |
+| saleIsActive                             | 853             | 1853   | 1853   | 2853   | 2      |
 | setMerkleRoot                            | 5588            | 5588   | 5588   | 5588   | 1      |
+| tokenURI                                 | 160719          | 160719 | 160719 | 160719 | 1      |
 
 
 # How to build the contract

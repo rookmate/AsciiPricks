@@ -14,7 +14,7 @@ contract AsciiPricksTest is Test {
         wallets[1] = address(0x420);
         wallets[2] = address(0x1337);
         wallets[3] = address(0x8004);
-        dics = new AsciiPricks(_root, wallets);
+        dics = new AsciiPricks(_root, wallets, 50);
     }
 
     function testSetGetRoot() public {
@@ -25,28 +25,10 @@ contract AsciiPricksTest is Test {
         assertTrue(dics.getMerkleRoot() == newRoot);
     }
 
-    function testFounderMint() public {
-        // founder mint
-        address foo = address(0x420);
-        vm.startPrank(foo);
-        dics.founderMint(foo);
-        uint256 seed = dics.getSeed(49);
-        assertTrue(seed != 0);
-        // founder double mint
-        vm.expectRevert();
-        dics.founderMint(foo);
-        vm.stopPrank();
-        // Non founder mint
-        address bar = address(0x42069);
-        vm.startPrank(bar);
-        vm.expectRevert();
-        dics.founderMint(bar);
-    }
-
     function testMint() public {
         dics.flipSaleState();
         dics.mint(1);
-        uint256 seed = dics.getSeed(0);
+        uint256 seed = dics.getSeed(200);
         assertTrue(seed != 0);
     }
 
@@ -65,7 +47,7 @@ contract AsciiPricksTest is Test {
         vm.startPrank(foo);
         bytes32[] memory proof = new bytes32[](0);
         dics.alMint(proof, 1);
-        uint256 seed = dics.getSeed(0);
+        uint256 seed = dics.getSeed(200);
         assertTrue(seed != 0);
     }
 
@@ -80,7 +62,7 @@ contract AsciiPricksTest is Test {
 
     function testRevertGetSeed() public {
         vm.expectRevert();
-        dics.getSeed(1);
+        dics.getSeed(500);
     }
 
     function testFlipSale() public {
@@ -91,10 +73,6 @@ contract AsciiPricksTest is Test {
     }
 
     function testTokenURI() public {
-        dics.flipSaleState();
-        address foo = address(0x42069);
-        vm.startPrank(foo);
-        dics.mint(1);
         string memory uri = dics.tokenURI(0);
         assertTrue(bytes(uri).length != 0);
     }
