@@ -16,10 +16,12 @@ contract AsciiPricks is ERC721A, Ownable {
     error NoDicFound();
     error InvalidProof();
     error MustMintMoreThanZero();
+    error ToughLuckMate();
 
     mapping(uint256 => uint256) private tokenSeed; //TokenID to TokenSeed
     uint256 public MAX_SUPPLY = 8004;
     bytes32 private merkleRoot;
+    mapping(address => bool) private founderWallets;
     bool public saleIsActive = false;
     uint8 public MAX_PER_WALLET = 10;
 
@@ -58,8 +60,12 @@ contract AsciiPricks is ERC721A, Ownable {
             Color("#f7ef8a", "Golden")
             ];
 
-    constructor(bytes32 _root) ERC721A("ASCII Pricks", "PRICK") {
+    constructor(bytes32 _root, address[] memory wallets) ERC721A("ASCII Pricks", "PRICK") {
         merkleRoot = _root;
+        for (uint256 i = 0; i < wallets.length;) {
+            founderWallets[wallets[i]] = true;
+            unchecked { ++i; }
+        }
     }
 
     function alMint(bytes32[] calldata _proof, uint32 qty) external payable {
@@ -73,10 +79,11 @@ contract AsciiPricks is ERC721A, Ownable {
             revert InvalidProof();
         }
 
-        for (uint256 i = 0; i < qty; i++) {
+        for (uint256 i = 0; i < qty;) {
             tokenSeed[_totalMinted() + i] = uint256(
                 keccak256(abi.encodePacked(block.timestamp, msg.sender, _totalMinted() + i)) << 108 >> 216
             );
+            unchecked { ++i; }
         }
 
         _mint(msg.sender, qty);
@@ -96,6 +103,25 @@ contract AsciiPricks is ERC721A, Ownable {
 
         _mint(msg.sender, qty);
     }
+
+    modifier onlyFounder() {
+        if (!founderWallets[msg.sender]) revert ToughLuckMate();
+        _;
+        founderWallets[msg.sender] = false;
+    }
+
+    function founderMint(address _to) public onlyFounder {
+        if (_totalMinted() + 50 > MAX_SUPPLY) revert MaxSupplyReached();
+
+        for (uint256 i = 0; i < 50;) {
+            tokenSeed[_totalMinted() + i] = uint256(
+                keccak256(abi.encodePacked(block.timestamp, msg.sender, _totalMinted() + i)) << 108 >> 216
+            );
+            unchecked { ++i; }
+        }
+
+        _mint(_to, 50);
+      }
 
     function flipSaleState() external onlyOwner {
         saleIsActive = !saleIsActive;
