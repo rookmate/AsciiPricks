@@ -17,6 +17,21 @@ contract AsciiPricksTest is Test {
         dics = new AsciiPricks(_root, wallets, 50);
     }
 
+    function testConstructorMint() public {
+        assert(dics.getSeed(1) != 0);
+        assert(dics.ownerOf(1) == address(0x69));
+        assert(dics.balanceOf(address(0x69)) == 50);
+        assert(dics.getSeed(51) != 0);
+        assert(dics.ownerOf(51) == address(0x420));
+        assert(dics.balanceOf(address(0x420)) == 50);
+        assert(dics.getSeed(101) != 0);
+        assert(dics.ownerOf(101) == address(0x1337));
+        assert(dics.balanceOf(address(0x1337)) == 50);
+        assert(dics.getSeed(151) != 0);
+        assert(dics.ownerOf(151) == address(0x8004));
+        assert(dics.balanceOf(address(0x8004)) == 50);
+    }
+
     function testSetGetRoot() public {
         assertTrue(dics.getMerkleRoot() == _root);
         address newAddy = address(0xDEAD);
