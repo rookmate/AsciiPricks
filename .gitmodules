@@ -7,3 +7,6 @@
 [submodule "lib/solady"]
 	path = lib/solady
 	url = https://github.com/vectorized/solady
+[submodule "lib/erc721A"]
+	path = lib/erc721A
+	url = https://github.com/chiru-labs/erc721A
