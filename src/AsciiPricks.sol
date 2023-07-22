@@ -2,10 +2,10 @@
 pragma solidity ^0.8.17;
 
 import "lib/erc721A/contracts/ERC721A.sol";
-import './base64.sol';
+import "lib/solady/src/utils/MerkleProofLib.sol";
+import 'lib/solady/src/utils/Base64.sol';
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 contract AsciiPricks is ERC721A, Ownable {
     using Strings for uint256;
@@ -83,7 +83,7 @@ contract AsciiPricks is ERC721A, Ownable {
 
         bytes32 leaf = keccak256((abi.encodePacked(msg.sender)));
 
-        if (!MerkleProof.verify(_proof, merkleRoot, leaf)) {
+        if (!MerkleProofLib.verify(_proof, merkleRoot, leaf)) {
             revert InvalidProof();
         }
 
