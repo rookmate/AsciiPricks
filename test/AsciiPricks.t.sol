@@ -17,7 +17,7 @@ contract AsciiPricksTest is Test {
         dics = new AsciiPricks(_root, wallets, 50);
     }
 
-    function testConstructorMint() public {
+    function testConstructorMint() public view {
         assert(dics.getSeed(1) != 0);
         assert(dics.ownerOf(1) == address(0x69));
         assert(dics.balanceOf(address(0x69)) == 50);
