@@ -1,19 +1,19 @@
 # Gas Report
-| src/AsciiPricks.sol:AsciiPricks contract |                 |        |        |        |        |
-|------------------------------------------|-----------------|--------|--------|--------|--------|
-| Deployment Cost                          | Deployment Size |        |        |        |        |
-| 8020654                                  | 15617           |        |        |        |        |
-| Function Name                            | min             | avg    | median | max    | #calls |
-| alMint                                   | 534             | 30260  | 9996   | 80252  | 3      |
-| balanceOf                                | 2787            | 2787   | 2787   | 2787   | 4      |
-| flipSaleState                            | 5570            | 7236   | 7570   | 7570   | 6      |
-| getMerkleRoot                            | 555             | 1555   | 1555   | 2555   | 2      |
-| getSeed                                  | 1221            | 4030   | 5221   | 7221   | 7      |
-| mint                                     | 712             | 22166  | 5137   | 77678  | 4      |
-| ownerOf                                  | 3127            | 3127   | 3127   | 3127   | 4      |
-| saleIsActive                             | 853             | 1853   | 1853   | 2853   | 2      |
-| setMerkleRoot                            | 5588            | 5588   | 5588   | 5588   | 1      |
-| tokenURI                                 | 128622          | 128622 | 128622 | 128622 | 1      |
+| src/AsciiPricks.sol:AsciiPricks contract |                 |        |        |        |         |
+|------------------------------------------|-----------------|--------|--------|--------|---------|
+| Deployment Cost                          | Deployment Size |        |        |        |         |
+| 7972092                                  | 15361           |        |        |        |         |
+| Function Name                            | min             | avg    | median | max    | # calls |
+| alMint                                   | 527             | 30259  | 9985   | 80265  | 3       |
+| balanceOf                                | 2780            | 2780   | 2780   | 2780   | 4       |
+| flipSaleState                            | 5563            | 7229   | 7563   | 7563   | 6       |
+| getMerkleRoot                            | 548             | 1548   | 1548   | 2548   | 2       |
+| getSeed                                  | 1214            | 4023   | 5214   | 7214   | 7       |
+| mint                                     | 705             | 22165  | 5130   | 77695  | 4       |
+| ownerOf                                  | 3123            | 3123   | 3123   | 3123   | 4       |
+| saleIsActive                             | 846             | 1846   | 1846   | 2846   | 2       |
+| setMerkleRoot                            | 5581            | 5581   | 5581   | 5581   | 1       |
+| tokenURI                                 | 128654          | 128654 | 128654 | 128654 | 1       |
 
 
 # How to build the contract

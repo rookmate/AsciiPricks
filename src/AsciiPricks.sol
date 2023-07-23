@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.21;
 
 import "lib/erc721A/contracts/ERC721A.sol";
 import "lib/solady/src/utils/MerkleProofLib.sol";
