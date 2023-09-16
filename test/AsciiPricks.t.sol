@@ -7,6 +7,7 @@ import "../src/AsciiPricks.sol";
 contract AsciiPricksTest is Test {
     AsciiPricks public dics;
     bytes32 public _root = keccak256((abi.encodePacked(address(0x42069))));
+    uint32 MAX_MINT = 50;
 
     function setUp() public {
         address[] memory wallets = new address[](4);
@@ -14,22 +15,22 @@ contract AsciiPricksTest is Test {
         wallets[1] = address(0x420);
         wallets[2] = address(0x1337);
         wallets[3] = address(0x8004);
-        dics = new AsciiPricks(_root, wallets, 50);
+        dics = new AsciiPricks(_root, wallets, MAX_MINT);
     }
 
     function testConstructorMint() public view {
         assert(dics.getSeed(1) != 0);
         assert(dics.ownerOf(1) == address(0x69));
-        assert(dics.balanceOf(address(0x69)) == 50);
-        assert(dics.getSeed(51) != 0);
-        assert(dics.ownerOf(51) == address(0x420));
-        assert(dics.balanceOf(address(0x420)) == 50);
-        assert(dics.getSeed(101) != 0);
-        assert(dics.ownerOf(101) == address(0x1337));
-        assert(dics.balanceOf(address(0x1337)) == 50);
-        assert(dics.getSeed(151) != 0);
-        assert(dics.ownerOf(151) == address(0x8004));
-        assert(dics.balanceOf(address(0x8004)) == 50);
+        assert(dics.balanceOf(address(0x69)) == MAX_MINT);
+        assert(dics.getSeed(MAX_MINT+1) != 0);
+        assert(dics.ownerOf(MAX_MINT+1) == address(0x420));
+        assert(dics.balanceOf(address(0x420)) == MAX_MINT);
+        assert(dics.getSeed(MAX_MINT*2+1) != 0);
+        assert(dics.ownerOf(MAX_MINT*2+1) == address(0x1337));
+        assert(dics.balanceOf(address(0x1337)) == MAX_MINT);
+        assert(dics.getSeed(MAX_MINT*3+1) != 0);
+        assert(dics.ownerOf(MAX_MINT*3+1) == address(0x8004));
+        assert(dics.balanceOf(address(0x8004)) == MAX_MINT);
     }
 
     function testSetGetRoot() public {
@@ -43,7 +44,7 @@ contract AsciiPricksTest is Test {
     function testMint() public {
         dics.flipSaleState();
         dics.mint(1);
-        uint256 seed = dics.getSeed(200);
+        uint256 seed = dics.getSeed(MAX_MINT*4);
         assertTrue(seed != 0);
     }
 
@@ -62,7 +63,7 @@ contract AsciiPricksTest is Test {
         vm.startPrank(foo);
         bytes32[] memory proof = new bytes32[](0);
         dics.alMint(proof, 1);
-        uint256 seed = dics.getSeed(200);
+        uint256 seed = dics.getSeed(MAX_MINT*4);
         assertTrue(seed != 0);
     }
 
